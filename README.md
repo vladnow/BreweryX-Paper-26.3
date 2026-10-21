@@ -1,67 +1,63 @@
-# BreweryX ![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue) [![Releases](https://img.shields.io/github/v/release/BreweryTeam/BreweryX)](https://github.com/BreweryTeam/BreweryX/releases/latest)
+# Brewery Continuum — unofficial BreweryX port
 
-#### BreweryX is an actively maintained fork of Brewery which includes many new features and gives support to the inactive plugin. Find more info below.
+BreweryX 3.7.1 compatibility port for **Paper 26.3 / Java 25**.
+Version: `3.7.1-paper26.3.1-beta.1`. Beta; not an official BreweryTeam release.
 
-### [Wiki & Docs](https://brewery.lumamc.net) **|** [Discord Support](https://discord.gg/aV5Am7uxWr) **|** [Download Brewery**X**](https://www.spigotmc.org/resources/breweryx.114777/)
+Upstream: https://github.com/BreweryTeam/BreweryX/tree/3.7.1
+Base commit: `343872c66a6f37ec4da420cbf12637b4574d5d21`.
+The tag's upstream build script still said 3.7.0; this port uses its own explicit version.
 
----
+The plugin provides configurable cauldron brewing, distillation, barrel aging
+and drink effects inherited from BreweryX. Original authors: Grafe, TTTheKing,
+Sn0wStorm; BreweryTeam and the contributors named in the original source and
+plugin metadata retain their copyright.
 
-> [!IMPORTANT]
-> Brewery**X** is based off of an over **decade** old plugin, [Brewery](https://github.com/DieReicheErethons/Brewery). 
-> Bugs and issues are bound to happen, so please report them on our [Discord](https://discord.gg/aV5Am7uxWr) or [GitHub issues](https://github.com/BreweryTeam/BreweryX/issues)!
+## Changes and checks
 
+Explicit recognition of 26.2 and 26.3, Paper version and command-map APIs,
+Java 25 and Paper 26.3 build target, upstream update checks off by default for
+new configurations, regression checks and license notices.
+Eight version regression tests pass. The disposable real-Paper harness checks
+recipe items, PDC serialization, fermentation/distillation/aging/sealing code,
+cauldron particles and SQLite persistence. See the accompanying verification
+report for exact results. Real-client interaction, multiplayer and optional
+integration behavior have not been validated. Folia and Spigot are not claimed.
 
-### Brewery is a Plugin for an alternate brewing process, including alcoholic Potions.
+## Build from complete sources
 
-Works with Spigot, Paper, and Folia from `1.21.8` to `1.8.9`!
+Install JDK 25 and set JAVA_HOME to it. PowerShell 7 is recommended.
+Run `./build.ps1` (or `./prepare-apis.ps1`, then `./gradlew.bat clean build sourcesJar`).
+The first build requires network access to the public repositories in
+build.gradle.kts. No publishing token is required. Two compile-only APIs are
+downloaded from pinned official URLs and verified by SHA-256. They are excluded
+from this source bundle and are never shaded into the runtime plugin.
 
-The somewhat difficult brewing process rewards you with a diversity of Potions, which, through their effects, create a drunkenness that has never existed in Minecraft before.
+On Windows with Cyrillic paths, use build.ps1: it selects the Windows argument
+file encoding for Gradle workers while Java resources remain UTF-8. On other
+systems run Gradle 9.6.1 with JDK 25 after preparing the two compile-only files.
+Outputs: `build/libs/BreweryX-3.7.1-paper26.3.1-beta.1.jar` and `-sources.jar`.
 
----
-<h3 style="text-align: center;">Original Brewery Features</h3>
+## Installation
 
-- Brew alcoholic Drinks, that actually can make you drunk
-- Drunk people will stagger, the chat is influenced, effects and more
-- Wake up at /home after a long night of drinking
-- Lower quality brewed drinks have downsides like hangover
-- Process of brewing with different steps like fermenting, distilling, aging
-- Refine the quality, until the Drinks are perfect
-- Master the brewing of even the most difficult Drinks
-- Create your own Recipes including ingredients, properties and creation process
-- Configurable influence on the chat
+Stop Paper, back up the world and complete plugins/BreweryX folder, replace the
+old BreweryX JAR with this one, start Paper 26.3 using Java 25. Use one BreweryX
+runtime only. Players need no mod. `/brew help`, `/brew version`, `/brew reload`.
+Set `language: ru` in plugins/BreweryX/config.yml for Russian, then reload.
+Do not test first on the only copy of an existing server.
 
+Inherited bStats is opt-out: set `enabled: false` in plugins/bStats/config.yml
+and restart to disable it. New configs use `resolveUpdatesFrom: NONE`; existing
+configs keep their setting. Upstream update checks do not track this fork.
 
----
-<h3 style="text-align: center;">Brewery<ins>X</ins> features</h3>
+## License and distribution
 
-- Customizable plugin prefix
-- Full RGB support for 1.16+
-- Multi-puke items
-- Ability to specify custom ingredients by CustomModelData
-- Addons! (Things like **[Recipes](https://www.spigotmc.org/resources/breweryrecipes-breweryx-addon.114897/)**)
-- Support for ItemsAdder & Oraxen items!
-- Patches like **[this](https://github.com/DieReicheErethons/Brewery/issues/541)**
-- Support for Brewery and BreweryX in our **[discord](https://discord.gg/6VzjPSNRex)**
-- **[Folia](https://github.com/PaperMC/Folia)** support
-- **[PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/)** support
-- And more!
+GNU GPLv3; see LICENSE.txt and PORT-NOTICE.md. Preserve author and modification
+notices. Publish the matching complete source and build files alongside the JAR.
+Dependencies retain their own licenses in META-INF/third-party-licenses.
+Port changes, tests and publication materials were prepared using generative AI;
+this statement makes no claim about AI use in upstream BreweryX.
 
-### **Find more info on the [Spigot page](https://www.spigotmc.org/resources/breweryx.114777/) for this plugin.**
-
-#### Also see  [Legacy Wiki](https://github.com/DieReicheErethons/Brewery/wiki) | [Releases](https://github.com/BreweryTeam/BreweryX/releases)
-
----
-
-# API
-
-### Coming soon:
-
-- [Depenizen support](https://github.com/DenizenScript/Depenizen/pull/430) for Denizen Scripters
-
-### For Java developers, find our repository for the BreweryX API [here](https://repo.jsinco.dev/#/releases/com/dre/brewery/BreweryX).
-
-Check [the documentation](https://breweryx.breweryteam.dev/docs/for-developers/plugin-api/) for more information.
-
-### License
-
-This Project is licensed under GPLv3
+The future publisher must add the actual public source and issue links here.
+Platform admission is separate from the GPL permission; in particular current
+Modrinth AI-fork rules can prohibit public listing of this port, and Hangar and
+SpigotMC impose originality requirements. No external publication has occurred.

@@ -1,47 +1,18 @@
 /*
  * BreweryX Bukkit-Plugin for an alternate brewing process
  * Copyright (C) 2024 The Brewery Team
- *
- * This file is part of BreweryX.
- *
- * BreweryX is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * BreweryX is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with BreweryX. If not, see <http://www.gnu.org/licenses/gpl-3.0.html>.
+ * GNU GPL version 3 or later; see LICENSE.txt.
+ * Modified 2026-10-21 for the unofficial Paper 26.3 port; see PORT-NOTICE.md.
  */
-
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import io.papermc.hangarpublishplugin.model.Platforms
-import org.apache.commons.io.output.ByteArrayOutputStream
 import org.apache.tools.ant.filters.ReplaceTokens
-import java.net.HttpURLConnection
-import java.net.URI
-import java.nio.charset.Charset
-
 plugins {
-    id("java")
-    id("maven-publish")
+    java
     id("com.gradleup.shadow") version "9.4.1"
-    id("io.papermc.hangar-publish-plugin") version "0.1.4"
-    id("com.modrinth.minotaur") version "2.9.0"
-    id("xyz.jpenilla.run-paper") version "3.0.2"
-    id("io.github.apdevteam.github-packages") version "1.2.2"
-    id("org.ajoberstar.grgit") version ("5.3.3")
 }
-
 group = "com.dre.brewery"
-version = "3.7.1"
+version = "3.7.1-paper26.3.1-beta.1"
 
-val langVersion: Int = 21
+val langVersion: Int = 25
 val runTaskJavaVersion: Int = 25
 val encoding: String = "UTF-8"
 
@@ -61,12 +32,19 @@ repositories {
     maven("https://repo.oraxen.com/releases") // Oraxen
     maven("https://storehouse.okaeri.eu/repository/maven-public/") // Okaeri Config
     maven("https://repo.papermc.io/repository/maven-public/") // PaperLib
-    maven { githubPackage("apdevteam/movecraft")(this) } // Movecraft
+    maven("https://repo.papermc.io/repository/maven-public/") // Movecraft
 }
+
+configurations.configureEach {
+    exclude(group = "org.bukkit", module = "bukkit")
+    exclude(group = "org.spigotmc", module = "spigot-api")
+}
+
+dependencyLocking { lockAllConfigurations() }
 
 dependencies {
     // Spigot
-    compileOnly("org.spigotmc:spigot-api:1.21.11-R0.1-SNAPSHOT") {
+    compileOnly("io.papermc.paper:paper-api:26.3.build.169-beta") {
         exclude("com.google.code.gson", "gson") // Implemented manually
     }
     // Paper Lib, performance improvements on Paper-based servers and async teleporting on Folia
@@ -87,8 +65,8 @@ dependencies {
     implementation("org.mongodb:mongodb-driver-sync:5.3.0-beta0")
     compileOnly("org.apache.logging.log4j:log4j-core:2.23.1")
     // Lombok
-    compileOnly("org.projectlombok:lombok:1.18.30")
-    annotationProcessor("org.projectlombok:lombok:1.18.30")
+    compileOnly("org.projectlombok:lombok:1.18.42")
+    annotationProcessor("org.projectlombok:lombok:1.18.42")
     // Okaeri configuration
     implementation("eu.okaeri:okaeri-configs-yaml-snakeyaml:5.0.5") {
         exclude("org.yaml", "snakeyaml")
@@ -122,298 +100,58 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.11.5") // https://www.spigotmc.org/resources/placeholderapi.6245/history
     compileOnly("io.th0rgal:oraxen:1.163.0") // https://www.spigotmc.org/resources/%E2%98%84%EF%B8%8F-oraxen-custom-items-blocks-emotes-furniture-resourcepack-and-gui-1-18-1-21-3.72448/
     compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.1") // https://www.spigotmc.org/resources/%E2%9C%A8itemsadder%E2%AD%90emotes-mobs-items-armors-hud-gui-emojis-blocks-wings-hats-liquids.73355/updates
-    compileOnly("net.countercraft:movecraft:8.0.0_beta-6") //https://hangar.papermc.io/Airship-Pirates/Movecraft
+    compileOnly(files("lib/Movecraft.jar")) // API only, never included in the runtime JAR.
 
 
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("io.papermc.paper:paper-api:26.3.build.169-beta")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 
 
-tasks {
-
-    build {
-        dependsOn(shadowJar)
-    }
-    jar {
-        enabled = false // Shadow produces our jar files
-    }
-    withType<JavaCompile>().configureEach {
-        options.encoding = encoding
-    }
-    test {
-        useJUnitPlatform()
-    }
-
-    processResources {
-        outputs.upToDateWhen { false }
-        filter<ReplaceTokens>(
-            mapOf(
-                "tokens" to mapOf("version" to "${project.version};${grgit.branch.current().name}"),
-                "beginToken" to "\${",
-                "endToken" to "}"
-            )
-        ).filteringCharset = encoding
-    }
-
-    shadowJar {
-        val pack = "com.dre.brewery.depend"
-        relocate("com.google.gson", "$pack.google.gson")
-        relocate("com.google.errorprone", "$pack.google.errorprone")
-        relocate("com.github.Anon8281.universalScheduler", "$pack.universalScheduler")
-        relocate("eu.okaeri", "$pack.okaeri")
-        relocate("com.mongodb", "$pack.mongodb")
-        relocate("org.bson", "$pack.bson")
-        relocate("io.papermc.lib", "$pack.paperlib")
-        relocate("com.zaxxer.hikari", "$pack.hikari")
-
-        archiveClassifier.set("")
-    }
-
-    register("publishRelease") {
-        println("Publishing a new release to: modrinth, hangar, and maven")
-        dependsOn(modrinth)
-        finalizedBy("publishPluginPublicationToHangar")
-        finalizedBy(publish)
-
-        doLast {
-            // Much rather use a task in Gradle than a GitHub action for this,
-            // but, may want to look into finding a small plugin for this since BreweryX has
-            // a variety of addons that would also need this code copied into them.
-            val webhook = DiscordWebhook(System.getenv("DISCORD_WEBHOOK") ?: return@doLast)
-            webhook.message = "<@&1393584912652566571>"
-            webhook.embedTitle = "BreweryX - v${project.version}"
-            webhook.embedDescription = readChangeLog()
-            webhook.send()
-        }
-    }
-
-    runServer {
-        minecraftVersion("26.2")
-    }
-
-    register("publishToDiscord") {
-        val webhook = DiscordWebhook(System.getenv("DISCORD_WEBHOOK"))
-        webhook.message = "<@&1393584912652566571>"
-        webhook.embedTitle = "BreweryX - v${project.version}"
-        webhook.embedDescription = readChangeLog()
-        webhook.send()
-    }
-}
-
-tasks.withType(xyz.jpenilla.runtask.task.AbstractRun::class) {
-    javaLauncher = javaToolchains.launcherFor {
-        vendor = JvmVendorSpec.ADOPTIUM
-        languageVersion = JavaLanguageVersion.of(runTaskJavaVersion)
-    }
-}
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(langVersion)
-    val b = System.getProperty("sources")
-    if (b != null && b.toBoolean()) {
-        withSourcesJar()
-    }
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
+    withSourcesJar()
 }
-
-
-publishing {
-    val repoUrl = System.getenv("REPO_URL") ?: "https://repo.jsinco.dev/releases"
-    val user = System.getenv("REPO_USERNAME")
-    val pass = System.getenv("REPO_SECRET")
-
-
-    repositories {
-        if (user == null || pass == null) {
-            return@repositories
-        }
-        maven {
-            url = uri(repoUrl)
-            credentials(PasswordCredentials::class) {
-                username = user
-                password = pass
-            }
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
-        }
-    }
-
-    publications {
-        if (user == null || pass == null) {
-            return@publications
-        }
-        create<MavenPublication>("maven") {
-            groupId = project.group.toString()
-            artifactId = project.name
-            version = project.version.toString()
-            artifact(tasks.shadowJar.get().archiveFile) {
-                builtBy(tasks.shadowJar)
+tasks.withType<JavaCompile>().configureEach { options.encoding = "UTF-8" }
+tasks.processResources {
+    filteringCharset = "UTF-8"
+    filter<ReplaceTokens>(mapOf("tokens" to mapOf("version" to project.version.toString()), "beginToken" to "\${", "endToken" to "}"))
+    from("LICENSE.txt")
+}
+val stageDependencyNotices by tasks.registering {
+    val output = layout.buildDirectory.dir("dependency-notices")
+    inputs.files(configurations.runtimeClasspath)
+    outputs.dir(output)
+    doLast {
+        configurations.runtimeClasspath.get().files.forEach { dependency ->
+            copy {
+                from(zipTree(dependency))
+                include("META-INF/LICENSE*", "META-INF/NOTICE*", "LICENSE*", "NOTICE*", "COPYING*")
+                into(output.get().dir(dependency.nameWithoutExtension))
             }
         }
     }
 }
-
-
-modrinth {
-    token.set(System.getenv("MODRINTH_TOKEN") ?: run {
-        return@modrinth
-    })
-    projectId.set(project.name) // This can be the project ID or the slug. Either will work!
-    versionNumber.set(project.version.toString())
-    versionType.set("release") // This is the default -- can also be `beta` or `alpha`
-    uploadFile.set(tasks.shadowJar)
-    loaders.addAll("bukkit", "spigot", "paper", "purpur", "folia")
-    gameVersions.addAll(
-        "1.20.2", "1.20.3", "1.20.4", "1.20.5",
-        "1.20.6", "1.21", "1.21.1", "1.21.2",
-        "1.21.3", "1.21.4", "1.21.5", "1.21.6",
-        "1.21.7", "1.21.8", "1.21.9", "1.21.10",
-        "1.21.11", "26.1.2", "26.2"
-    )
-    changelog.set(readChangeLog())
+tasks.shadowJar {
+    val pack = "com.dre.brewery.depend"
+    relocate("com.google.gson", "$pack.google.gson")
+    relocate("com.google.errorprone", "$pack.google.errorprone")
+    relocate("com.github.Anon8281.universalScheduler", "$pack.universalScheduler")
+    relocate("eu.okaeri", "$pack.okaeri")
+    relocate("com.mongodb", "$pack.mongodb")
+    relocate("org.bson", "$pack.bson")
+    relocate("io.papermc.lib", "$pack.paperlib")
+    relocate("com.zaxxer.hikari", "$pack.hikari")
+    archiveClassifier.set("")
+    from("third-party-licenses") { into("META-INF/third-party-licenses") }
+    from("PORT-NOTICE.md")
+    dependsOn(stageDependencyNotices)
+    from(layout.buildDirectory.dir("dependency-notices")) { into("META-INF/third-party-licenses/bundled") }
 }
-
-
-hangarPublish {
-    publications.register("plugin") {
-        version.set(project.version.toString())
-        channel.set("Release")
-        id.set(project.name)
-        apiKey.set(System.getenv("HANGAR_TOKEN") ?: return@register)
-        changelog.set(readChangeLog())
-        platforms {
-            register(Platforms.PAPER) {
-                // TODO: Ask in paper discord
-                //url.set("https://modrinth.com/plugin/breweryx/versions")
-                jar.set(tasks.shadowJar.flatMap { it.archiveFile })
-                platformVersions.set(listOf("1.20.x", "1.21.x", "26.1.2", "26.2"))
-            }
-        }
-    }
-}
-
-fun readChangeLog(): String {
-    val text: String = System.getenv("CHANGELOG") ?: file("CHANGELOG.md").run {
-        if (exists()) readText() else "No Changelog found."
-    }
-    return text.replace("\${version}", project.version.toString())
-}
-
-
-class DiscordWebhook(
-    val webhookUrl: String,
-    var defaultThumbnail: Boolean = true
-) {
-
-    companion object {
-        private const val MAX_EMBED_DESCRIPTION_LENGTH = 4096
-    }
-
-    var message: String = "content"
-    var username: String = "BreweryX Updates"
-    var avatarUrl: String = "https://github.com/breweryteam.png"
-    var embedTitle: String = "Embed Title"
-    var embedDescription: String = "Embed Description"
-    var embedColor: String = "F5E083"
-    var embedThumbnailUrl: String? = if (defaultThumbnail) avatarUrl else null
-    var embedImageUrl: String? = null
-
-    private fun hexStringToInt(hex: String): Int {
-        val hexWithoutPrefix = hex.removePrefix("#")
-        return hexWithoutPrefix.toInt(16)
-    }
-
-    private fun buildToJson(): String {
-        val json = JsonObject()
-        json.addProperty("username", username)
-        json.addProperty("avatar_url", avatarUrl)
-        json.addProperty("content", message)
-
-        val embed = JsonObject()
-        embed.addProperty("title", embedTitle)
-        embed.addProperty("description", embedDescription)
-        embed.addProperty("color", hexStringToInt(embedColor))
-
-        embedThumbnailUrl?.let {
-            val thumbnail = JsonObject()
-            thumbnail.addProperty("url", it)
-            embed.add("thumbnail", thumbnail)
-        }
-
-        embedImageUrl?.let {
-            val image = JsonObject()
-            image.addProperty("url", it)
-            embed.add("image", image)
-        }
-
-        val embeds = JsonArray()
-        createEmbeds().forEach(embeds::add)
-
-        json.add("embeds", embeds)
-        return json.toString()
-    }
-
-    private fun createEmbeds(): List<JsonObject> {
-        if (embedDescription.length <= MAX_EMBED_DESCRIPTION_LENGTH) {
-            return listOf(JsonObject().apply {
-                addProperty("title", embedTitle)
-                addProperty("description", embedDescription)
-                addProperty("color", embedColor.toInt(16))
-                embedThumbnailUrl?.let {
-                    val thumbnail = JsonObject()
-                    thumbnail.addProperty("url", it)
-                    add("thumbnail", thumbnail)
-                }
-                embedImageUrl?.let {
-                    val image = JsonObject()
-                    image.addProperty("url", it)
-                    add("image", image)
-                }
-            })
-        }
-        val embeds = mutableListOf<JsonObject>()
-        var description = embedDescription
-        while (description.isNotEmpty()) {
-            val chunkLength = minOf(MAX_EMBED_DESCRIPTION_LENGTH, description.length)
-            val chunk = description.take(chunkLength)
-            description = description.substring(chunkLength)
-            embeds.add(JsonObject().apply {
-                addProperty("title", embedTitle)
-                addProperty("description", chunk)
-                addProperty("color", embedColor.toInt(16))
-                embedThumbnailUrl?.let {
-                    val thumbnail = JsonObject()
-                    thumbnail.addProperty("url", it)
-                    add("thumbnail", thumbnail)
-                }
-                embedImageUrl?.let {
-                    val image = JsonObject()
-                    image.addProperty("url", it)
-                    add("image", image)
-                }
-            })
-        }
-        return embeds
-    }
-
-    fun send() {
-        val url = URI(webhookUrl).toURL()
-        val connection = url.openConnection() as HttpURLConnection
-        connection.requestMethod = "POST"
-        connection.setRequestProperty("Content-Type", "application/json")
-        connection.doOutput = true
-        connection.outputStream.use { outputStream ->
-            outputStream.write(buildToJson().toByteArray())
-
-            val responseCode = connection.responseCode
-            println("POST Response Code :: $responseCode")
-            if (responseCode in 200 until 300) {
-                println("Message sent successfully.")
-            } else {
-                println("Failed to send message.")
-            }
-        }
-    }
-}
+tasks.jar { enabled = false }
+tasks.build { dependsOn(tasks.shadowJar) }
+tasks.test { useJUnitPlatform() }
