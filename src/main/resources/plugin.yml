@@ -1,9 +1,9 @@
 name: BreweryX
 main: com.dre.brewery.BreweryPlugin
 version: '${version}'
-api-version: 1.13
+api-version: '26.3'
 load: POSTWORLD
-folia-supported: true
+folia-supported: false
 website: 'https://brewery.lumamc.net/'
 authors: [Jsinco, Mitality, Nadwey, Szarkans, Vutka1, Thorinwasher, Tisawesomeness]
 softdepend:

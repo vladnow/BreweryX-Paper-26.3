@@ -59,6 +59,8 @@ public enum MinecraftVersion {
     V1_21_10("1.21.10", "1.21.9"), // 1.21.10 & 1.21.9 are one and the same
     V1_21_11("1.21.11"),
     V26_1("26.1"),
+    V26_2("26.2"),
+    V26_3("26.3"),
     UNKNOWN("Unknown");
 
     private static final Pattern VERSION_PATTERN = Pattern.compile("^([0-9]+)\\.([0-9]+)(?:\\.([0-9]+))?");
@@ -97,14 +99,14 @@ public enum MinecraftVersion {
     }
 
     public static MinecraftVersion getIt() {
-        String rawVersion = Bukkit.getVersion();
-        String rawVersionParsed = rawVersion.substring(rawVersion.indexOf("(MC: ") + 5, rawVersion.indexOf(")"));
-
-        Matcher matcher = VERSION_PATTERN.matcher(rawVersionParsed);
+        // Paper exposes the game version directly; implementation build strings
+        // are not a stable format and can contain unrelated parentheses.
+        String rawVersion = Bukkit.getMinecraftVersion();
+        Matcher matcher = VERSION_PATTERN.matcher(rawVersion);
         if (!matcher.find()) {
             throw new IllegalStateException("Could not parse Minecraft version from: " + rawVersion);
         }
-        Preconditions.checkState(matcher.groupCount() == 3 || matcher.groupCount() == 2, "Unexpected Minecraft version format: " + rawVersionParsed);
+        Preconditions.checkState(matcher.groupCount() == 3 || matcher.groupCount() == 2, "Unexpected Minecraft version format: " + rawVersion);
 
         return get(matcher.group(1), matcher.group(2), matcher.group(3));
     }

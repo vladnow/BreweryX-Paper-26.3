@@ -66,7 +66,8 @@ public class Config extends AbstractOkaeriConfigFile {
     private String language = "en";
 
     @LocalizedComment("config.updateCheck")
-    private ReleaseChecker.ReleaseCheckerType resolveUpdatesFrom = ReleaseChecker.ReleaseCheckerType.GITHUB;
+    // Unofficial Paper 26.3 port: upstream releases do not track this fork.
+    private ReleaseChecker.ReleaseCheckerType resolveUpdatesFrom = ReleaseChecker.ReleaseCheckerType.NONE;
 
     @LocalizedComment("config.autosave")
     private int autosave = 10;

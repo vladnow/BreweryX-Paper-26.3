@@ -205,11 +205,8 @@ public final class BreweryPlugin extends JavaPlugin {
         PluginCommand defaultCommand = getCommand("breweryx");
         defaultCommand.setExecutor(new CommandManager());
         try {
-            // This has to be done reflectively because Spigot doesn't expose the CommandMap through the API
-            Field bukkitCommandMap = getServer().getClass().getDeclaredField("commandMap");
-            bukkitCommandMap.setAccessible(true);
-
-            CommandMap commandMap = (CommandMap) bukkitCommandMap.get(getServer());
+            // This port targets Paper 26.3, which exposes the command map.
+            CommandMap commandMap = getServer().getCommandMap();
 
             for (String alias : config.getCommandAliases()) {
                 commandMap.register(alias, "breweryx", defaultCommand);
