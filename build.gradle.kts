@@ -10,7 +10,7 @@ plugins {
     id("com.gradleup.shadow") version "9.4.1"
 }
 group = "com.dre.brewery"
-version = "3.7.1-paper26.3.1-beta.1"
+version = "3.7.1-paper26.3.1-beta.5"
 
 val langVersion: Int = 25
 val runTaskJavaVersion: Int = 25

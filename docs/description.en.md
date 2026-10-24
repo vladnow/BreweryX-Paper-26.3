@@ -1,25 +1,75 @@
-# Brewery Continuum
+# Brewery Continuum — unofficial BreweryX port
 
-An unofficial compatibility port of BreweryX 3.7.1 for Paper 26.3 and Java 25. BreweryX adds a configurable brewing process with ingredient cooking in cauldrons, distillation, barrel aging, custom recipes and drink effects.
+BreweryX 3.7.1 compatibility port for **Paper 26.3 / Java 25**.
+Version: `3.7.1-paper26.3.1-beta.5`. Beta; not an official BreweryTeam release.
 
-This port explicitly recognizes Minecraft 26.3, compiles against its Paper API, uses Paper's public game-version and command-map APIs, and disables upstream release checks by default for new configurations. The technical plugin name remains BreweryX so its configuration and data folder remain compatible.
+Upstream: https://github.com/BreweryTeam/BreweryX/tree/3.7.1
+Base commit: `343872c66a6f37ec4da420cbf12637b4574d5d21`.
+The tag's upstream build script still said 3.7.0; this port uses its own explicit version.
+
+The plugin provides configurable cauldron brewing, distillation, barrel aging
+and drink effects inherited from BreweryX. Original authors: Grafe, TTTheKing,
+Sn0wStorm; BreweryTeam and the contributors named in the original source and
+plugin metadata retain their copyright.
+
+## Changes and checks
+
+Explicit recognition of 26.2 and 26.3, Paper version and command-map APIs,
+Java 25 and Paper 26.3 build target, upstream update checks off by default for
+new configurations, regression checks and license notices.
+Twenty-three automated tests cover version handling and English/Russian resources.
+The disposable real-Paper harness checks
+recipe items, PDC serialization, fermentation/distillation/aging/sealing code,
+cauldron particles and SQLite persistence. See the accompanying verification
+report for exact results. Real-client interaction, multiplayer and optional
+integration behavior have not been validated. Folia and Spigot are not claimed.
+
+## Build from complete sources
+
+Install JDK 25 and set JAVA_HOME to it. PowerShell 7 is recommended.
+Run `./build.ps1` (or `./prepare-apis.ps1`, then `./gradlew.bat clean build sourcesJar`).
+The first build requires network access to the public repositories in
+build.gradle.kts. No publishing token is required. Two compile-only APIs are
+downloaded from pinned official URLs and verified by SHA-256. They are excluded
+from this source bundle and are never shaded into the runtime plugin.
+
+On Windows with Cyrillic paths, use build.ps1: it selects the Windows argument
+file encoding for Gradle workers while Java resources remain UTF-8. On other
+systems run Gradle 9.6.1 with JDK 25 after preparing the two compile-only files.
+Outputs: `build/libs/BreweryX-3.7.1-paper26.3.1-beta.5.jar` and `-sources.jar`.
 
 ## Installation
 
-Stop the server and back up its world and BreweryX data, including SQLite files. Remove the previous BreweryX runtime JAR, put the port JAR into `plugins`, then start Paper 26.3 with Java 25. Install only one BreweryX implementation at a time. Players do not need a client mod. Use `/brew help` and `/brew version` to begin. To use Russian, set `language: ru` in `plugins/BreweryX/config.yml` and run `/brew reload`.
+Stop Paper, back up the world and complete plugins/BreweryX folder, replace the
+old BreweryX JAR with this one, start Paper 26.3 using Java 25. Use one BreweryX
+runtime only. Players need no mod. `/brew help`, `/brew version`, `/brew reload`.
+Set `language: ru` in plugins/BreweryX/config.yml for Russian, then reload.
+Use `language: en` to switch back to English and run `/brew reload` again.
+The language setting already existed upstream. Beta.3 additionally localizes
+version, statistics, storage, addon and debug replies, documents the config switch,
+accepts locale aliases such as ru_RU / en_US, and falls back safely for a missing
+locale. Custom language-file messages and recipe data are preserved.
+Beta.3 also translates all 23 standard drinks and 35 cauldron defaults, including existing bottles on inventory access. Stable saved recipe identities and nontext metadata are preserved. See LOCALIZATION.ru.md for the exact scope and installation.
+Do not test first on the only copy of an existing server.
 
-## Status
+Inherited bStats is opt-out: set `enabled: false` in plugins/bStats/config.yml
+and restart to disable it. New configs use `resolveUpdatesFrom: NONE`; existing
+configs keep their setting. Upstream update checks do not track this fork.
 
-Beta. See the included verification report for the exact tested Paper build and automated coverage. Real-client gameplay, multiplayer behavior, Folia, other server platforms and optional third-party plugin integrations have not been validated. Automated recipe and storage checks do not establish complete gameplay compatibility.
+## License and distribution
 
-## Attribution and license
+GNU GPLv3; see LICENSE.txt and PORT-NOTICE.md. Preserve author and modification
+notices. Publish the matching complete source and build files alongside the JAR.
+Dependencies retain their own licenses in META-INF/third-party-licenses.
+Port changes, tests and publication materials were prepared using generative AI;
+this statement makes no claim about AI use in upstream BreweryX.
 
-Based on [BreweryTeam/BreweryX](https://github.com/BreweryTeam/BreweryX), tag 3.7.1, commit 343872c66a6f37ec4da420cbf12637b4574d5d21. Credit belongs to the BreweryTeam contributors and original Brewery authors Grafe, TTTheKing and Sn0wStorm. This is an independent port and is not an official BreweryTeam release. Distributed under GNU GPLv3; preserve the included copyright and dependency notices. Matching complete source and build files accompany the release.
+Project: https://github.com/vladnow/BreweryX-Paper-26.3
+This beta.5 package is prepared locally; publication of this version is a separate step.
+Platform admission is separate from the GPL permission; in particular current
+Modrinth AI-fork rules can prohibit public listing of this port, and Hangar and
+SpigotMC impose originality requirements.
 
-The compatibility changes, tests and publication text in this port were prepared using generative AI. This disclosure concerns the port; it makes no claim about AI use in the upstream project.
+Beta.4 adds five requested drinks with English/Russian names and a one-time, backed-up recipe installation. Existing IDs, disabled recipes and legacy config entries take precedence. Fractional intermediate alcohol calculation fixes odd strengths after complete distillation. See CUSTOM-DRINKS.ru.md for all ingredients, timing, effects and upgrade details.
 
-## Connections and telemetry
-
-Inherited bStats telemetry is enabled by default and can be disabled with `enabled: false` in `plugins/bStats/config.yml`, followed by a server restart. This fork defaults new configurations to `resolveUpdatesFrom: NONE`. Existing configurations retain their settings; choosing GITHUB, SNAPSHOTS or SPIGOT enables the corresponding upstream update-check connections. Updates are checked, not automatically installed.
-
-Original documentation: [BreweryTeam docs](https://docs.breweryteam.dev/). Report port-specific issues to the port's own repository.
+Beta.5 changes the two grass recipes to SHORT_GRASS and updates existing recipe files once, with a backup. Other recipe fields and subsequent administrator edits are preserved.

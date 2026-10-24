@@ -1,0 +1,17 @@
+{
+  "version": "3.7.1-paper26.3.1-beta.5",
+  "sha256": "bb614bc41f48bb73cfa5a6e97c17fd959f290bbd7349f02430665bd44a0fa05f",
+  "bytes": 4053560,
+  "unit_tests": 23,
+  "native_checks": {
+    "grass-fresh-beta5": 157,
+    "grass-upgrade-beta5": 188
+  },
+  "enabled_drinks": 28,
+  "changed_grass_recipes": 2,
+  "paper": "26.3 build 169",
+  "java": 25,
+  "runtime_matches_all_tests": true,
+  "real_client_tested": false,
+  "published": false
+}

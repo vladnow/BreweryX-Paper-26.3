@@ -1,13 +1,39 @@
-## 3.7.1-paper26.3.1-beta.1 — 2026-10-21
+Неофициальный порт BreweryX 3.7.1 для **Paper 26.3 / Java 25**. Это бета-версия; клиентский мод не требуется.
 
-- Unofficial port based on BreweryX tag 3.7.1 (343872c66a6f37ec4da420cbf12637b4574d5d21).
-- Recognize Minecraft 26.2 and 26.3 explicitly; read the game version through Paper's public API.
-- Compile against Paper API 26.3.build.169-beta with Java 25; require API 26.3 in plugin metadata.
-- Register configured command aliases through Paper's public command map.
-- Disable upstream update checks by default for new installations; preserve existing configuration values.
-- Include GPLv3, modification notices and bundled-library license texts.
-- Add version regression tests and a disposable real-Paper recipe/storage verification harness.
-- Retain upstream brewing functionality and optional integration code; optional integration behavior and real-client gameplay remain untested.
-- Beta for Paper only. Folia, Spigot, Purpur and other platforms are not claimed.
+## Изменения после beta.1
 
-The changes, checks and release materials were prepared using generative AI. This is not an official BreweryTeam release.
+- Переключение русского и английского через `language: ru` / `language: en` и `/brew reload`; поддержка обозначений `ru_RU` и `en_US`.
+- Русские сообщения, справка, меню, стандартные названия напитков, описания и служебные подписи. Старые стандартные бутылки обновляют текст при доступе к инвентарю.
+- Пять напитков: **Жидкий кристалл**, **Jägermeister**, **Багровая выпивка**, **Королевский напиток**, **Дремучая смесь**. Всего 28 включённых рецептов.
+- В Jägermeister нужны **10 обычной низкой травы**, в Дремучей смеси — **5** (`SHORT_GRASS`). Высокая трава в этих двух рецептах заменяется при обновлении автоматически.
+- У Багровой выпивки огнестойкость II на 60 секунд; у Королевского напитка сопротивление II на 345 секунд.
+- Новые рецепты устанавливаются однократно. Настройки сохраняются, перед изменением существующих рецептов создаётся резервная копия.
+- Исправлено округление нечётной крепости после полной перегонки: 15/35/27 больше не превращаются в 14/34/26.
+
+Все рецепты и подробности обновления: [CUSTOM-DRINKS.ru.md](https://github.com/vladnow/BreweryX-Paper-26.3/blob/v3.7.1-paper26.3.1-beta.5/CUSTOM-DRINKS.ru.md).
+Русификация и старые бутылки: [LOCALIZATION.ru.md](https://github.com/vladnow/BreweryX-Paper-26.3/blob/v3.7.1-paper26.3.1-beta.5/LOCALIZATION.ru.md).
+
+## Установка
+
+1. Остановите сервер и сделайте резервную копию мира и `plugins/BreweryX`.
+2. Замените старый BreweryX JAR на **`BreweryX-3.7.1-paper26.3.1-beta.5.jar`**. Оставьте в `plugins` только один runtime JAR BreweryX.
+3. Запустите сервер на Paper 26.3 / Java 25. Для русского установите `language: ru` в `plugins/BreweryX/config.yml`.
+4. После изменения языка выполните `/brew reload`.
+
+Удалять файлы рецептов и базу данных не нужно. Имена рецептов в YAML могут оставаться английскими: перевод применяется при отображении.
+Файлы `-sources.jar` и `-source.zip` предназначены для разработчиков; в папку `plugins` их класть не нужно.
+
+## Проверено
+
+Конечная beta.5: **23 автоматических теста**, **157 серверных проверок новой установки** и **188 проверок обновления с beta.4** на Paper 26.3 build 169 / Java 25. Проверены ингредиенты, варка, перегонка, выдержка, крепость, эффекты, смена языка и сохранение пользовательских рецептов.
+
+**Бета:** подключённый игровой клиент, ручное приготовление, мультиплеер и совместимость со сторонними дополнениями не проверялись. Folia и Spigot не заявляются. Полный набор проверок русификации предыдущей версии повторно не запускался.
+
+SHA-256 runtime JAR:
+`bb614bc41f48bb73cfa5a6e97c17fd959f290bbd7349f02430665bd44a0fa05f`
+
+## Исходники и авторство
+
+Основано на [BreweryTeam/BreweryX](https://github.com/BreweryTeam/BreweryX), версия 3.7.1. Сохранены авторство исходного проекта, GPLv3 и уведомления сторонних библиотек. Полные соответствующие исходники и файлы сборки приложены в **`BreweryX-3.7.1-paper26.3.1-beta.5-source.zip`**.
+
+Изменения порта, перевода, проверок и материалы публикации подготовлены с использованием генеративного ИИ. Это не официальный релиз BreweryTeam.

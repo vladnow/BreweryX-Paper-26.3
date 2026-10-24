@@ -1,7 +1,7 @@
 # Brewery Continuum — unofficial BreweryX port
 
 BreweryX 3.7.1 compatibility port for **Paper 26.3 / Java 25**.
-Version: `3.7.1-paper26.3.1-beta.1`. Beta; not an official BreweryTeam release.
+Version: `3.7.1-paper26.3.1-beta.5`. Beta; not an official BreweryTeam release.
 
 Upstream: https://github.com/BreweryTeam/BreweryX/tree/3.7.1
 Base commit: `343872c66a6f37ec4da420cbf12637b4574d5d21`.
@@ -17,7 +17,8 @@ plugin metadata retain their copyright.
 Explicit recognition of 26.2 and 26.3, Paper version and command-map APIs,
 Java 25 and Paper 26.3 build target, upstream update checks off by default for
 new configurations, regression checks and license notices.
-Eight version regression tests pass. The disposable real-Paper harness checks
+Twenty-three automated tests cover version handling and English/Russian resources.
+The disposable real-Paper harness checks
 recipe items, PDC serialization, fermentation/distillation/aging/sealing code,
 cauldron particles and SQLite persistence. See the accompanying verification
 report for exact results. Real-client interaction, multiplayer and optional
@@ -35,7 +36,7 @@ from this source bundle and are never shaded into the runtime plugin.
 On Windows with Cyrillic paths, use build.ps1: it selects the Windows argument
 file encoding for Gradle workers while Java resources remain UTF-8. On other
 systems run Gradle 9.6.1 with JDK 25 after preparing the two compile-only files.
-Outputs: `build/libs/BreweryX-3.7.1-paper26.3.1-beta.1.jar` and `-sources.jar`.
+Outputs: `build/libs/BreweryX-3.7.1-paper26.3.1-beta.5.jar` and `-sources.jar`.
 
 ## Installation
 
@@ -43,6 +44,12 @@ Stop Paper, back up the world and complete plugins/BreweryX folder, replace the
 old BreweryX JAR with this one, start Paper 26.3 using Java 25. Use one BreweryX
 runtime only. Players need no mod. `/brew help`, `/brew version`, `/brew reload`.
 Set `language: ru` in plugins/BreweryX/config.yml for Russian, then reload.
+Use `language: en` to switch back to English and run `/brew reload` again.
+The language setting already existed upstream. Beta.3 additionally localizes
+version, statistics, storage, addon and debug replies, documents the config switch,
+accepts locale aliases such as ru_RU / en_US, and falls back safely for a missing
+locale. Custom language-file messages and recipe data are preserved.
+Beta.3 also translates all 23 standard drinks and 35 cauldron defaults, including existing bottles on inventory access. Stable saved recipe identities and nontext metadata are preserved. See LOCALIZATION.ru.md for the exact scope and installation.
 Do not test first on the only copy of an existing server.
 
 Inherited bStats is opt-out: set `enabled: false` in plugins/bStats/config.yml
@@ -57,7 +64,12 @@ Dependencies retain their own licenses in META-INF/third-party-licenses.
 Port changes, tests and publication materials were prepared using generative AI;
 this statement makes no claim about AI use in upstream BreweryX.
 
-The future publisher must add the actual public source and issue links here.
+Project: https://github.com/vladnow/BreweryX-Paper-26.3
+This beta.5 package is prepared locally; publication of this version is a separate step.
 Platform admission is separate from the GPL permission; in particular current
 Modrinth AI-fork rules can prohibit public listing of this port, and Hangar and
-SpigotMC impose originality requirements. No external publication has occurred.
+SpigotMC impose originality requirements.
+
+Beta.4 adds five requested drinks with English/Russian names and a one-time, backed-up recipe installation. Existing IDs, disabled recipes and legacy config entries take precedence. Fractional intermediate alcohol calculation fixes odd strengths after complete distillation. See CUSTOM-DRINKS.ru.md for all ingredients, timing, effects and upgrade details.
+
+Beta.5 changes the two grass recipes to SHORT_GRASS and updates existing recipe files once, with a backup. Other recipe fields and subsequent administrator edits are preserved.
