@@ -51,7 +51,7 @@ public class BreweryPluginItem extends PluginItem {
             // We *could* add support for names instead of just using the ids
             return this.getItemId().equalsIgnoreCase(recipe.getId()) ||
                 this.getItemId().equalsIgnoreCase(recipe.getRecipeName()) || // From original Impl
-                this.getItemId().equalsIgnoreCase(recipe.getName(10)); // From original Impl
+                recipe.hasName(this.getItemId()); // Keep original and localized quality-name aliases
         }
         return false;
     }

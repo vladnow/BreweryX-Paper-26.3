@@ -30,6 +30,7 @@ import com.dre.brewery.configuration.files.CustomItemsFile;
 import com.dre.brewery.configuration.files.Lang;
 import com.dre.brewery.configuration.sector.capsule.ConfigRecipe;
 import com.dre.brewery.integration.PlaceholderAPIHook;
+import com.dre.brewery.localization.ContentTranslations;
 import com.dre.brewery.utility.BUtil;
 import com.dre.brewery.utility.Logging;
 import com.dre.brewery.utility.MaterialUtil;
@@ -531,10 +532,10 @@ public class BRecipe implements Cloneable {
             }
         }
         if (drinkMsg != null) {
-            player.sendMessage(BUtil.applyPlaceholders(drinkMsg, player.getName(), quality));
+            player.sendMessage(BUtil.applyPlaceholders(getDrinkMsg(), player.getName(), quality));
         }
         if (drinkTitle != null) {
-            player.sendTitle("", BUtil.applyPlaceholders(drinkTitle, player.getName(), quality), 10, 90, 30);
+            player.sendTitle("", BUtil.applyPlaceholders(getDrinkTitle(), player.getName(), quality), 10, 90, 30);
         }
     }
 
@@ -669,13 +670,18 @@ public class BRecipe implements Cloneable {
      * Same as getName(5)
      */
     public String getRecipeName() {
-        return getName(5);
+        // This value is embedded in existing bottles. Keep it independent of language.
+        return getRawName(5);
     }
 
     /**
      * name that fits the quality
      */
     public String getName(int quality) {
+        return ContentTranslations.translate("recipes", id, "name", getRawName(quality));
+    }
+
+    public String getRawName(int quality) {
         if (name.length > 2) {
             if (quality <= 3) {
                 return name[0];
@@ -693,8 +699,12 @@ public class BRecipe implements Cloneable {
      * If one of the quality names equalIgnoreCase given name
      */
     public boolean hasName(String name) {
+        String requested = org.bukkit.ChatColor.stripColor(BUtil.color(name));
+        for (int quality : new int[]{1, 5, 10}) {
+            if (org.bukkit.ChatColor.stripColor(BUtil.color(getName(quality))).equalsIgnoreCase(requested)) return true;
+        }
         for (String test : this.name) {
-            if (test.equalsIgnoreCase(name)) {
+            if (org.bukkit.ChatColor.stripColor(BUtil.color(test)).equalsIgnoreCase(requested)) {
                 return true;
             }
         }
@@ -717,7 +727,17 @@ public class BRecipe implements Cloneable {
 
     @Nullable
     public List<String> getLoreForQuality(int quality) {
-        return getStringsForQuality(quality, lore);
+        List<String> lines = getStringsForQuality(quality, lore);
+        return lines == null ? null : lines.stream()
+            .map(line -> ContentTranslations.translate("recipes", id, "lore", line)).toList();
+    }
+
+    public String getDrinkMsg() {
+        return ContentTranslations.translate("recipes", id, "drinkmessage", drinkMsg);
+    }
+
+    public String getDrinkTitle() {
+        return ContentTranslations.translate("recipes", id, "drinktitle", drinkTitle);
     }
 
     @Nullable
@@ -821,9 +841,7 @@ public class BRecipe implements Cloneable {
             return mainNameRecipe;
         }
         for (BRecipe recipe : recipes) {
-            if (recipe.getName(1).equalsIgnoreCase(name)) {
-                return recipe;
-            } else if (recipe.getName(10).equalsIgnoreCase(name)) {
+            if (recipe.hasName(name)) {
                 return recipe;
             }
         }

@@ -34,6 +34,47 @@ public class RecipesSector extends AbstractOkaeriConfigSector<ConfigRecipe> {
 
     // Comments not supported here
 
+    ConfigRecipe liquid_crystal = ConfigRecipe.builder()
+        .name("Liquid Crystal")
+        .ingredients(List.of("LAPIS_LAZULI/10", "AMETHYST_SHARD/5", "REDSTONE/4"))
+        .cookingTime(2).distillRuns(5).wood(2).age(2)
+        .color("78d9ff").difficulty(5).alcohol(15)
+        .effects(List.of("GLOWING/1-1/15-15", "STRENGTH/1-1/10-10", "REGENERATION/1-1/5-5"))
+        .build();
+
+    ConfigRecipe jagermeister = ConfigRecipe.builder()
+        .name("Jägermeister")
+        .ingredients(List.of("SWEET_BERRIES/10", "SHORT_GRASS/10", "SUGAR_CANE/5"))
+        .cookingTime(10).distillRuns(6).wood(0).age(0)
+        .color("593315").difficulty(5).alcohol(35)
+        .effects(List.of("POISON/1-1/15-15", "WEAKNESS/1-1/30-30"))
+        .build();
+
+    ConfigRecipe crimson_drink = ConfigRecipe.builder()
+        .name("Crimson Drink")
+        .ingredients(List.of("CRIMSON_FUNGUS/4", "NETHER_WART/3", "SUGAR/4"))
+        .cookingTime(7).distillRuns(2).wood(0).age(5)
+        .color("a51d47").difficulty(5).alcohol(27)
+        .effects(List.of("FIRE_RESISTANCE/2-2/60-60"))
+        .build();
+
+    ConfigRecipe royal_drink = ConfigRecipe.builder()
+        .name("Royal Drink")
+        .ingredients(List.of("GOLDEN_APPLE/1", "GOLD_INGOT/4", "DIAMOND/2", "EMERALD/4"))
+        .cookingTime(18).distillRuns(0).wood(1).age(10)
+        .color("ffd700").difficulty(5).alcohol(36)
+        .effects(List.of("REGENERATION/2-2/30-30", "SPEED/2-2/45-45", "NIGHT_VISION/1-1/45-45",
+            "RESISTANCE/2-2/345-345", "JUMP_BOOST/2-2/30-30", "STRENGTH/1-1/30-30"))
+        .build();
+
+    ConfigRecipe wildwood_mixture = ConfigRecipe.builder()
+        .name("Wildwood Mixture")
+        .ingredients(List.of("DANDELION/2", "COAL/3", "SHORT_GRASS/5"))
+        .cookingTime(4).distillRuns(0).wood(0).age(2)
+        .color("40552b").difficulty(5).alcohol(10)
+        .effects(List.of("POISON/1-1/10-10", "BLINDNESS/1-1/30-30", "SLOWNESS/1-1/15-15"))
+        .build();
+
     ConfigRecipe ex = ConfigRecipe.builder()
         .enabled(false)
         .name("Bad Example/Example/Good Example")

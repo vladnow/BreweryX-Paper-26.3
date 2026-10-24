@@ -21,6 +21,7 @@
 package com.dre.brewery.recipe;
 
 import com.dre.brewery.configuration.sector.capsule.ConfigCauldronIngredient;
+import com.dre.brewery.localization.ContentTranslations;
 import com.dre.brewery.utility.BUtil;
 import com.dre.brewery.utility.Logging;
 import com.dre.brewery.utility.StringParser;
@@ -62,6 +63,15 @@ public class BCauldronRecipe {
     private List<String> lore;
     private int cmData; // Custom Model Data
     private boolean saveInData; // If this recipe should be saved in data and loaded again when the server restarts. Applicable to non-config recipes
+
+    public String getName() {
+        return ContentTranslations.translate("cauldron", id, "name", name);
+    }
+
+    public List<String> getLore() {
+        return lore == null ? null : lore.stream()
+            .map(line -> ContentTranslations.translate("cauldron", id, "lore", line)).toList();
+    }
 
 
     /**

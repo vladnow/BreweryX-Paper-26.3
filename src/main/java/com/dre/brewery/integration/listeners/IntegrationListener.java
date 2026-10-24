@@ -85,10 +85,10 @@ public class IntegrationListener implements Listener {
                     Logging.errorLog("Disable the WorldGuard support in the config and do /brew reload");
                     Player player = event.getPlayer();
                     if (player.hasPermission("brewery.admin") || player.hasPermission("brewery.mod")) {
-                        Logging.msg(player, "&cWorldGuard check Error, Brewery was tested with up to v7.0 of Worldguard");
-                        Logging.msg(player, "&cSet &7useWorldGuard: false &cin the config and /brew reload");
+                        ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionCheck", "WorldGuard", "7.0");
+                        ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionDisable", "useWorldGuard");
                     } else {
-                        Logging.msg(player, "&cError opening Barrel, please report to an Admin!");
+                        ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_BarrelOpen");
                     }
                 }
             }
@@ -137,10 +137,10 @@ public class IntegrationListener implements Listener {
                 Logging.errorLog("Disable the GriefPrevention support in the config and do /brew reload");
                 Player player = event.getPlayer();
                 if (player.hasPermission("brewery.admin") || player.hasPermission("brewery.mod")) {
-                    Logging.msg(player, "&cGriefPrevention check Error, Brewery was tested with up to v16.9 of GriefPrevention");
-                    Logging.msg(player, "&cSet &7useGriefPrevention: false &cin the config and /brew reload");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionCheck", "GriefPrevention", "16.9");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionDisable", "useGriefPrevention");
                 } else {
-                    Logging.msg(player, "&cError opening Barrel, please report to an Admin!");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_BarrelOpen");
                 }
                 return;
             }
@@ -165,10 +165,10 @@ public class IntegrationListener implements Listener {
                         Logging.errorLog("Brewery was tested with version 4.5.0 of LWC!");
                         Logging.errorLog("Disable the LWC support in the config and do /brew reload");
                         if (player.hasPermission("brewery.admin") || player.hasPermission("brewery.mod")) {
-                            Logging.msg(player, "&cLWC check Error, Brewery was tested with up to v4.5.0 of LWC");
-                            Logging.msg(player, "&cSet &7useLWC: false &cin the config and /brew reload");
+                            ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionCheck", "LWC", "4.5.0");
+                            ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionDisable", "useLWC");
                         } else {
-                            Logging.msg(player, "&cError opening Barrel, please report to an Admin!");
+                            ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_BarrelOpen");
                         }
                         return;
                     }
@@ -190,10 +190,10 @@ public class IntegrationListener implements Listener {
                 Logging.errorLog("Disable the Towny support in the config and do /brew reload");
                 Player player = event.getPlayer();
                 if (player.hasPermission("brewery.admin") || player.hasPermission("brewery.mod")) {
-                    Logging.msg(player, "&cTowny check Error, Brewery was tested with up to v0.96.3.0 of Towny");
-                    Logging.msg(player, "&cSet &7useTowny: false &cin the config and /brew reload");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionCheck", "Towny", "0.96.3.0");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionDisable", "useTowny");
                 } else {
-                    Logging.msg(player, "&cError opening Barrel, please report to an Admin!");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_BarrelOpen");
                 }
                 return;
             }
@@ -221,10 +221,10 @@ public class IntegrationListener implements Listener {
                 Logging.errorLog("Disable the BlockLocker support in the config and do /brew reload");
                 Player player = event.getPlayer();
                 if (player.hasPermission("brewery.admin") || player.hasPermission("brewery.mod")) {
-                    Logging.msg(player, "&cBlockLocker check Error, Brewery was tested with v1.9 of BlockLocker");
-                    Logging.msg(player, "&cSet &7useBlockLocker: false &cin the config and /brew reload");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionCheck", "BlockLocker", "1.9");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionDisable", "useBlockLocker");
                 } else {
-                    Logging.msg(player, "&cError opening Barrel, please report to an Admin!");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_BarrelOpen");
                 }
                 return;
             }
@@ -250,10 +250,10 @@ public class IntegrationListener implements Listener {
                 Logging.errorLog("Disable useVirtualChestPerms in the config and do /brew reload");
 
                 if (player.hasPermission("brewery.admin") || player.hasPermission("brewery.mod")) {
-                    Logging.msg(player, "&cVirtual Chest Error");
-                    Logging.msg(player, "&cSet &7useVirtualChestPerms: false &cin the config and /brew reload");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_VirtualChest");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionDisable", "useVirtualChestPerms");
                 } else {
-                    Logging.msg(player, "&cError opening Barrel, please report to an Admin!");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_BarrelOpen");
                 }
             } finally {
                 event.getClickedBlock().setType(Material.AIR, false);
@@ -286,10 +286,10 @@ public class IntegrationListener implements Listener {
                 Logging.errorLog("Disable the LWC support in the config and do /brew reload");
 
                 if (player.hasPermission("brewery.admin") || player.hasPermission("brewery.mod")) {
-                    Logging.msg(player, "&cLWC check Error, Brewery was tested with up to v4.5.0 of LWC");
-                    Logging.msg(player, "&cSet &7useLWC: false &cin the config and /brew reload");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionCheck", "LWC", "4.5.0");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_ProtectionDisable", "useLWC");
                 } else {
-                    Logging.msg(player, "&cError breaking Barrel, please report to an Admin!");
+                    ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_BarrelBreak");
                 }
             }
         } else {
