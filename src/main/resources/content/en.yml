@@ -1,0 +1,276 @@
+# Standard presentation only; recipe IDs and mechanics stay unchanged.
+{
+  "recipes": {
+    "ex": {
+      "name": "Bad Example/Example/Good Example",
+      "lore": [
+        "This is an example brew",
+        "++Just a normal Example",
+        "This text would be on the brew",
+        "+ Smells disgusting",
+        "++ Smells alright",
+        "+++ Smells really good"
+      ],
+      "drinkmessage": "Tastes good",
+      "drinktitle": "Warms you from inside"
+    },
+    "wheatbeer": {
+      "name": "Skunky Wheatbeer/Wheatbeer/Fine Wheatbeer",
+      "lore": [
+        "+++ &8Refreshing"
+      ]
+    },
+    "beer": {
+      "name": "Skunky Beer/Beer/Fine Beer",
+      "lore": [
+        "+++ &8Crisp taste"
+      ]
+    },
+    "darkbeer": {
+      "name": "Skunky Darkbeer/Darkbeer/Fine Darkbeer",
+      "lore": [
+        "+++ &8Roasted taste"
+      ]
+    },
+    "wine": {
+      "name": "Red Wine",
+      "lore": [
+        "+ &8Harsh",
+        "+ &8Corked",
+        "++ &8Mellow",
+        "+++ &8Full-Bodied"
+      ]
+    },
+    "mead": {
+      "name": "Awkward Mead/Mead/&6Golden Mead",
+      "lore": [
+        "+++ Has a golden shine"
+      ]
+    },
+    "ap_mead": {
+      "name": "Apple Mead/Sweet Apple Mead/&6Sweet Golden Apple Mead",
+      "lore": [
+        "Is there any Apple in this?",
+        "Refreshing taste of Apple",
+        "Sweetest hint of Apple"
+      ]
+    },
+    "cidre": {
+      "name": "Poor Cidre/Apple Cider/Great Apple Cider"
+    },
+    "apple_liquor": {
+      "name": "Sour Apple Liquor/Apple Liquor/Calvados",
+      "lore": [
+        "+Sour like Acid",
+        "+++ Good Apple Liquor"
+      ]
+    },
+    "whiskey": {
+      "name": "Unsightly Whiskey/Whiskey/Scotch Whiskey",
+      "lore": [
+        "&7Single Malt"
+      ]
+    },
+    "rum": {
+      "name": "Bitter Rum/Spicy Rum/&6Golden Rum",
+      "lore": [
+        "+ &8Too bitter to drink",
+        "++ &8Spiced by the barrel",
+        "+++ &eSpiced Gold"
+      ]
+    },
+    "vodka": {
+      "name": "Lousy Vodka/Vodka/Russian Vodka",
+      "lore": [
+        "+ &8Almost undrinkable"
+      ]
+    },
+    "shroom_vodka": {
+      "name": "Mushroom Vodka/Mushroom Vodka/Glowing Mushroom Vodka",
+      "lore": [
+        "+++&aGlows in the dark"
+      ]
+    },
+    "gin": {
+      "name": "Pale Gin/Gin/Old Tom Gin",
+      "lore": [
+        "++ With the",
+        "++ taste of juniper",
+        "+++ Perfectly finished off",
+        "+++ with juniper"
+      ]
+    },
+    "tequila": {
+      "name": "Mezcal/Tequila/Tequila anejo",
+      "lore": [
+        "Desert spirit"
+      ]
+    },
+    "absinthe": {
+      "name": "Poor Absinthe/Absinthe/Strong Absinthe",
+      "lore": [
+        "+++&8High proof liquor"
+      ]
+    },
+    "gr_absinthe": {
+      "name": "Poor Absinthe/Green Absinthe/Bright Green Absinthe",
+      "lore": [
+        "&aLooks poisonous"
+      ]
+    },
+    "potato_soup": {
+      "name": "Potato soup"
+    },
+    "coffee": {
+      "name": "Stale Coffee/Coffee/Strong Coffee",
+      "lore": [
+        "+ &8Probably a week old"
+      ]
+    },
+    "eggnog": {
+      "name": "Egg Liquor/Eggnog/Advocaat",
+      "lore": [
+        "Made with raw egg"
+      ]
+    },
+    "g_vodka": {
+      "name": "Rancid Vodka/&6Golden Vodka/&6Shimmering Golden Vodka"
+    },
+    "fire_whiskey": {
+      "name": "Powdery Whiskey/Burning Whiskey/Blazing Whiskey",
+      "drinkmessage": "You get a burning feeling in your mouth"
+    },
+    "hot_choc": {
+      "name": "Hot Chocolate"
+    },
+    "iced_coffee": {
+      "name": "Watery Coffee/Iced Coffee/Strong Iced Coffee"
+    },
+    "liquid_crystal": {
+      "name": "Liquid Crystal"
+    },
+    "jagermeister": {
+      "name": "Jägermeister"
+    },
+    "crimson_drink": {
+      "name": "Crimson Drink"
+    },
+    "royal_drink": {
+      "name": "Royal Drink"
+    },
+    "wildwood_mixture": {
+      "name": "Wildwood Mixture"
+    }
+  },
+  "cauldron": {
+    "ex": {
+      "name": "Example",
+      "lore": [
+        "An example for a Base Potion",
+        "This is how it comes out of a Cauldron"
+      ]
+    },
+    "wheat": {
+      "name": "Fermented wheat"
+    },
+    "sugarcane": {
+      "name": "Sugar brew"
+    },
+    "sugar": {
+      "name": "Sugarwater"
+    },
+    "apple": {
+      "name": "Apple must"
+    },
+    "berries": {
+      "name": "Grape must"
+    },
+    "potato": {
+      "name": "Potatomash"
+    },
+    "grass": {
+      "name": "Boiled herbs"
+    },
+    "rmushroom": {
+      "name": "Mushroom brew"
+    },
+    "bmushroom": {
+      "name": "Mushroom brew"
+    },
+    "cocoa": {
+      "name": "Chocolately brew"
+    },
+    "milk": {
+      "name": "Milky water"
+    },
+    "bl_flow": {
+      "name": "Blueish brew"
+    },
+    "cactus": {
+      "name": "Agave brew"
+    },
+    "poi_potato": {
+      "name": "Poisonous Broth"
+    },
+    "egg": {
+      "name": "Sticky brew"
+    },
+    "oak_sapling": {
+      "name": "Stringy herb broth"
+    },
+    "vine": {
+      "name": "Boiled herbs"
+    },
+    "rot_flesh": {
+      "name": "Foul pest"
+    },
+    "melon": {
+      "name": "Melon juice"
+    },
+    "wheat_seeds": {
+      "name": "Bitter brew"
+    },
+    "melon_seeds": {
+      "name": "Bitter brew"
+    },
+    "pumpkin_seeds": {
+      "name": "Bitter brew"
+    },
+    "bone_meal": {
+      "name": "Bony Brew"
+    },
+    "cookie": {
+      "name": "Chocolately sap"
+    },
+    "fer_spid_eye": {
+      "name": "Fermented Eye"
+    },
+    "ghast_tear": {
+      "name": "Sad brew"
+    },
+    "snowball": {
+      "name": "Icewater"
+    },
+    "Gold_Nugget": {
+      "name": "Glistering brew"
+    },
+    "glowstone_dust": {
+      "name": "Glowing brew"
+    },
+    "applemead_base": {
+      "name": "Apple-Sugar brew"
+    },
+    "poi_grass": {
+      "name": "Boiled acidy herbs"
+    },
+    "juniper": {
+      "name": "Juniper brew"
+    },
+    "gin_base": {
+      "name": "Fruity juniper brew"
+    },
+    "eggnog_base": {
+      "name": "Smooth egg mixture"
+    }
+  }
+}

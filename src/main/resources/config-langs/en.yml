@@ -3,7 +3,9 @@
 
 config:
   language: |
-    The translation to be used [en]
+    Language / Язык: en = English / английский, ru = Russian / русский. Default: en.
+    Set language: ru or language: en, save this file and run /brew reload. No server restart is needed.
+    Для русского языка: language: ru. Для английского: language: en. Сохраните файл и выполните /brew reload.
     Available types: en (English), de (German), es (Spanish), fr (French), it (Italian), ru (Russian), zh (Chinese), uk (Ukrainian), pl (Polish)
   updateCheck: |
     Should BreweryX check for updates? Specify which service you'd like to use for update checking or disable it.

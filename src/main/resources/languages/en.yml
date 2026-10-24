@@ -192,3 +192,36 @@ Player_WakeTeleport: 'Teleport to Wakeup Point with the id: &6&v1&f At position:
 Player_ShopSealBrew: '&eIt''s recommended to trade/sell &6sealed &eBrews'
 Player_Drunkeness: 'Drunkenness: '
 Player_Hangover: 'Your Hangover'
+
+# Paper 26.3 port: additional localized commands, 2026-10-23.
+Version_Plugin: '&2BreweryX version&7: &av&v1 &7(Latest: &v2)'
+Version_OriginalAuthors: '&2Original authors&7: &a&v1'
+Version_BreweryAuthors: '&dBreweryX authors&7: &a&v1'
+Version_Addons: '&2Loaded addons&7: &a&v1'
+Version_NotChecked: 'not checked'
+Stats_DrunkPlayers: 'Drunk players: &v1'
+Stats_BrewsCreated: 'Brews created: &v1'
+Stats_BarrelsBuilt: 'Barrels built: &v1'
+Stats_CauldronsBoiling: 'Cauldrons boiling: &v1'
+Stats_Recipes: 'Number of recipes: &v1'
+Stats_Wakeups: 'Wakeup points: &v1'
+Data_MissingArguments: 'Missing arguments. Use /brew data reload or /brew data save.'
+Data_Reloaded: 'Data manager reloaded.'
+Data_Saved: 'All BreweryX data saved.'
+Addons_Loaded: 'Loaded &v1 addon(s).'
+Addons_Warning: '&eReloading addons may cause unpredictable behavior.'
+Addons_Confirm: '&rTo reload addons, use &6/brewery reloadaddons confirm&r. This may cause unpredictable behavior.'
+Addons_ReloadHint: '&aMost addons support &6/brewery reload&a. Try that first.'
+Debug_ItemLogged: 'Item debug information written to the server log.'
+Error_SealingVersion: '&cSealing requires Minecraft 1.13 or newer.'
+Error_BrewFromItem: '&cCould not read the brew from this item.'
+
+Error_ProtectionCheck: '&cCompatibility check failed for &v1 (tested version: &v2).'
+
+Error_ProtectionDisable: '&cSet &7&v1: false &cin config.yml and run /brew reload.'
+
+Error_BarrelOpen: '&cCould not open the barrel. Contact a server administrator.'
+
+Error_VirtualChest: '&cVirtual chest permission check failed.'
+
+Error_BarrelBreak: '&cCould not break the barrel. Contact a server administrator.'
