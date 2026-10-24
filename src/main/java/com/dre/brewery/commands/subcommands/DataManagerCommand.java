@@ -37,7 +37,7 @@ public class DataManagerCommand implements SubCommand {
     @Override
     public void execute(BreweryPlugin breweryPlugin, Lang lang, CommandSender sender, String label, String[] args) {
         if (args.length < 2) {
-            Logging.msg(sender, "Missing arguments.");
+            lang.sendEntry(sender, "Data_MissingArguments");
             return;
         }
 
@@ -47,14 +47,14 @@ public class DataManagerCommand implements SubCommand {
                 CommandManager.execute(ReloadCommand.class, sender, label, args);
                 try {
                     BreweryPlugin.setDataManager(DataManager.createDataManager(ConfigManager.getConfig(Config.class).getStorage()));
-                    Logging.msg(sender, "Reloaded the DataManager!");
+                    lang.sendEntry(sender, "Data_Reloaded");
                 } catch (StorageInitException e) {
                     Logging.errorLog("Failed to initialize the DataManager! WARNING: This will cause issues and Brewery will NOT be able to save. Check your config and reload.", e);
                 }
             });
 
             case "save" ->
-                BreweryPlugin.getDataManager().saveAll(true, () -> Logging.msg(sender, "Saved all Brewery data!"));
+                BreweryPlugin.getDataManager().saveAll(true, () -> lang.sendEntry(sender, "Data_Saved"));
 
             default -> lang.sendEntry(sender, "Error_UnknownCommand");
         }

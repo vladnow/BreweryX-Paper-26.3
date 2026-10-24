@@ -132,6 +132,8 @@ public class ConfigManager {
     // Not really what I want to do, but I have to move these from BConfig right now
 
     public static void loadRecipes() {
+        getConfig(RecipesFile.class).installAdditionalRecipes();
+        getConfig(RecipesFile.class).replaceTallGrass();
         // loading recipes
         List<BRecipe> configRecipes = BRecipe.getConfigRecipes();
         configRecipes.clear();

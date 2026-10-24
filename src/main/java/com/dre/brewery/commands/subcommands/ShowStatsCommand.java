@@ -38,12 +38,12 @@ public class ShowStatsCommand implements SubCommand {
     public void execute(BreweryPlugin breweryPlugin, Lang lang, CommandSender sender, String label, String[] args) {
         //if (sender instanceof ConsoleCommandSender && !sender.isOp()) return;
 
-        Logging.msg(sender, "Drunk Players: " + BPlayer.numDrunkPlayers());
-        Logging.msg(sender, "Brews created: " + BreweryPlugin.getInstance().getBreweryStats().brewsCreated);
-        Logging.msg(sender, "Barrels built: " + Barrel.getAllBarrels().size());
-        Logging.msg(sender, "Cauldrons boiling: " + BCauldron.bcauldrons.size());
-        Logging.msg(sender, "Number of Recipes: " + BRecipe.getAllRecipes().size());
-        Logging.msg(sender, "Wakeups: " + Wakeup.wakeups.size());
+        lang.sendEntry(sender, "Stats_DrunkPlayers", BPlayer.numDrunkPlayers());
+        lang.sendEntry(sender, "Stats_BrewsCreated", BreweryPlugin.getInstance().getBreweryStats().brewsCreated);
+        lang.sendEntry(sender, "Stats_BarrelsBuilt", Barrel.getAllBarrels().size());
+        lang.sendEntry(sender, "Stats_CauldronsBoiling", BCauldron.bcauldrons.size());
+        lang.sendEntry(sender, "Stats_Recipes", BRecipe.getAllRecipes().size());
+        lang.sendEntry(sender, "Stats_Wakeups", Wakeup.wakeups.size());
     }
 
     @Override

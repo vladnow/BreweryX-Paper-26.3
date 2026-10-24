@@ -63,18 +63,19 @@ public class TranslationManager {
         this.activeTranslation = Translation.EN;
 
         try (InputStream inputStream = Files.newInputStream(ConfigManager.getFilePath(Config.class))) {
-            Map<String, String> data = yaml.loadAs(inputStream, Map.class);
+            Map<String, Object> data = yaml.loadAs(inputStream, Map.class);
             if (data != null) {
-                this.activeTranslation = Translation.getTranslation(data.get("language"));
+                Object configuredLanguage = data.get("language");
+                this.activeTranslation = Translation.getTranslation(configuredLanguage == null ? null : configuredLanguage.toString());
             }
         } catch (IOException e) {
             Logging.debugLog("Error reading YAML file: " + e.getMessage());
         }
         File languageFile = new File(dataFolder, "languages/" + activeTranslation.fileName());
         if (TranslationManager.class.getResource("/languages/" + activeTranslation.fileName()) == null && !languageFile.exists()) {
-            Logging.errorLog("Translation could not be found internally or as a file externally: " + activeTranslation.fileName());
-            Logging.errorLog("You need to either change translation or provide one at: " + languageFile);
-            throw new IllegalStateException("Language file not found: languages/" + activeTranslation.fileName());
+            Logging.warningLog("Language / Язык '" + activeTranslation.fileName()
+                + "' was not found. Using English / Используется английский. Set language: en or language: ru in config.yml.");
+            this.activeTranslation = fallbackTranslation;
         }
 
 
@@ -133,6 +134,18 @@ public class TranslationManager {
             Lang langFromResources = loadFromResources(tempHead, trans);
 
             langFromFile.updateMissingValuesFrom(langFromResources);
+            // Fix the one English upstream default in existing Russian files,
+            // while preserving any message customized by the administrator.
+            if (trans.fileName().equals("ru.yml")) {
+                langFromFile.replaceDefaultValue("Error_MissingBarrelType", "&cInvalid BarrelType",
+                    "&cНеверный тип бочки");
+                langFromFile.replaceDefaultValue("CMD_NonStatic", "&eНапиток больше не настаивается и теперь начнет бродить в бочке.",
+                    "&eНапиток снова будет выдерживаться в бочках и перегоняться.");
+                langFromFile.replaceDefaultValue("CMD_Static", "&aНапиток закупорен и не будет бродить в бочках.",
+                    "&aНапиток зафиксирован и больше не изменяется в бочках и зельеварках.");
+                langFromFile.replaceDefaultValue("Help_InfoOther", "&6/brew info [Игрок]&9 показывает текущее опьянение и качество [Player]",
+                    "&6/brew info [Игрок]&9 Показывает текущее опьянение и качество указанного игрока");
+            }
             if (trans != Translation.EN) {
                 langFromFile.updateMissingValuesFrom(fallback);
             }

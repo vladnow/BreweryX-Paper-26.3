@@ -41,7 +41,23 @@ public record Translation(String fileName) {
     private static final List<Translation> DEFAULT_TRANSLATIONS = compileTranslations();
 
     public static Translation getTranslation(String language) {
-        return new Translation(language.toLowerCase(Locale.ROOT) + ".yml");
+        if (language == null || language.isBlank()) {
+            return EN;
+        }
+        String normalized = language.trim().toLowerCase(Locale.ROOT);
+        if (normalized.endsWith(".yml")) {
+            normalized = normalized.substring(0, normalized.length() - 4);
+        }
+        normalized = switch (normalized) {
+            case "en_us", "en_gb", "en-us", "en-gb", "english" -> "en";
+            case "ru_ru", "ru-ru", "russian", "русский" -> "ru";
+            default -> normalized;
+        };
+        // Language names are file basenames, never paths outside languages/.
+        if (!normalized.matches("[a-z][a-z0-9_-]*")) {
+            return EN;
+        }
+        return new Translation(normalized + ".yml");
     }
 
     public static List<Translation> getDefaultTranslations() {

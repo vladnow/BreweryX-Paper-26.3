@@ -37,11 +37,11 @@ public class ReloadAddonsCommand implements SubCommand {
             addonManager.unloadAddons();
             addonManager.loadAddons();
             addonManager.enableAddons();
-            Logging.msg(sender, "Finished loading " + addonManager.getAddons().size() + " addon(s)");
-            Logging.msg(sender, "&eUsing this command should be avoided as it can cause unpredictable behavior within addons!");
+            lang.sendEntry(sender, "Addons_Loaded", addonManager.getAddons().size());
+            lang.sendEntry(sender, "Addons_Warning");
         } else {
-            Logging.msg(sender, "&rThis command should be avoided as it can cause unpredictable behavior within addons, use &6/brewery reloadaddons confirm &r to confirm.");
-            Logging.msg(sender, "&aMost addons support reloading without using this command! Try using &6/brewery reload &ainstead.");
+            lang.sendEntry(sender, "Addons_Confirm");
+            lang.sendEntry(sender, "Addons_ReloadHint");
         }
     }
 

@@ -107,7 +107,7 @@ public class CommandManager implements TabExecutor {
         String permission = subCommand.permission();
 
         if (playerOnly && !(sender instanceof Player)) {
-            lang.sendEntry(sender, "Error_NotPlayer");
+            lang.sendEntry(sender, "Error_PlayerCommand");
             return true;
         } else if (permission != null && !sender.hasPermission(permission)) {
             lang.sendEntry(sender, "Error_NoPermissions");

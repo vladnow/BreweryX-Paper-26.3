@@ -35,7 +35,7 @@ public class SealCommand implements SubCommand {
     @Override
     public void execute(BreweryPlugin breweryPlugin, Lang lang, CommandSender sender, String label, String[] args) {
         if (BreweryPlugin.getMCVersion().isOrEarlier(MinecraftVersion.V1_13)) {
-            Logging.msg(sender, "Sealing requires minecraft 1.13 or higher");
+            lang.sendEntry(sender, "Error_SealingVersion");
             return;
         }
         Player player = (Player) sender;

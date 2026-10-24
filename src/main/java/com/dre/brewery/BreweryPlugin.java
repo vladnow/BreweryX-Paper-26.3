@@ -153,6 +153,7 @@ public final class BreweryPlugin extends JavaPlugin {
         ConfigManager.loadRecipes();
         ConfigManager.loadDistortWords();
         ConfigManager.loadSeed();
+        com.dre.brewery.localization.ItemLanguage.reload();
         this.breweryStats = new BreweryStats(); // Load metrics
 
 
@@ -221,6 +222,7 @@ public final class BreweryPlugin extends JavaPlugin {
         pluginManager.registerEvents(new PlayerListener(), this);
         pluginManager.registerEvents(new EntityListener(), this);
         pluginManager.registerEvents(new InventoryListener(), this);
+        pluginManager.registerEvents(new com.dre.brewery.listeners.ItemLanguageListener(), this);
         pluginManager.registerEvents(new IntegrationListener(), this);
         if (getMCVersion().isOrLater(MinecraftVersion.V1_9))
             pluginManager.registerEvents(new CauldronListener(), this);

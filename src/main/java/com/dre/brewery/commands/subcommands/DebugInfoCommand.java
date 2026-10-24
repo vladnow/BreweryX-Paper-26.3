@@ -24,6 +24,7 @@ import com.dre.brewery.BIngredients;
 import com.dre.brewery.Brew;
 import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.commands.SubCommand;
+import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Lang;
 import com.dre.brewery.recipe.BRecipe;
 import com.dre.brewery.recipe.BestRecipeResult;
@@ -80,7 +81,7 @@ public class DebugInfoCommand implements SubCommand {
             logSpecificRecipe(player, ingredients, brew, recipeName);
         }
 
-        Logging.msg(player, "Debug Info for item written into Log");
+        ConfigManager.getConfig(Lang.class).sendEntry(player, "Debug_ItemLogged");
     }
 
     private static void logAllRecipes(BIngredients ingredients, Brew brew) {
@@ -101,7 +102,7 @@ public class DebugInfoCommand implements SubCommand {
     private static void logSpecificRecipe(Player player, BIngredients ingredients, Brew brew, String recipeName) {
         BRecipe recipe = BRecipe.getMatching(recipeName);
         if (recipe == null) {
-            Logging.msg(player, "Could not find Recipe " + recipeName);
+            ConfigManager.getConfig(Lang.class).sendEntry(player, "Error_NoBrewName", recipeName);
             return;
         }
         Logging.log("&lIngredients in Recipe " + recipe.getRecipeName() + "&r&l:&r");

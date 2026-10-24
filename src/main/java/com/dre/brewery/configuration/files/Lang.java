@@ -117,6 +117,19 @@ public class Lang extends AbstractOkaeriConfigFile {
         }
     }
 
+    public void replaceDefaultValue(String key, String previousDefault, String replacement) {
+        for (Field field : getClass().getDeclaredFields()) {
+            CustomKey annotation = field.getAnnotation(CustomKey.class);
+            if (field.getType() != String.class || annotation == null || !annotation.value().equals(key)) continue;
+            try {
+                if (previousDefault.equals(field.get(this))) field.set(this, replacement);
+            } catch (IllegalAccessException e) {
+                throw new IllegalStateException("Cannot update translation default " + key, e);
+            }
+            return;
+        }
+    }
+
     public void sendEntry(CommandSender recipient, String key, Object... args) {
         recipient.sendMessage(BUtil.color(config.getPluginPrefix() + this.getEntry(key, false, args)));
     }
@@ -451,6 +464,29 @@ public class Lang extends AbstractOkaeriConfigFile {
     @CustomKey("Perms_NoSmallBarrelCreate")
     private String permsNoSmallBarrelCreate;
 
+    @Comment("Additional command messages / Дополнительные сообщения команд")
+    @CustomKey("Version_Plugin") private String versionPlugin;
+    @CustomKey("Version_OriginalAuthors") private String versionOriginalAuthors;
+    @CustomKey("Version_BreweryAuthors") private String versionBreweryAuthors;
+    @CustomKey("Version_Addons") private String versionAddons;
+    @CustomKey("Version_NotChecked") private String versionNotChecked;
+    @CustomKey("Stats_DrunkPlayers") private String statsDrunkPlayers;
+    @CustomKey("Stats_BrewsCreated") private String statsBrewsCreated;
+    @CustomKey("Stats_BarrelsBuilt") private String statsBarrelsBuilt;
+    @CustomKey("Stats_CauldronsBoiling") private String statsCauldronsBoiling;
+    @CustomKey("Stats_Recipes") private String statsRecipes;
+    @CustomKey("Stats_Wakeups") private String statsWakeups;
+    @CustomKey("Data_MissingArguments") private String dataMissingArguments;
+    @CustomKey("Data_Reloaded") private String dataReloaded;
+    @CustomKey("Data_Saved") private String dataSaved;
+    @CustomKey("Addons_Loaded") private String addonsLoaded;
+    @CustomKey("Addons_Warning") private String addonsWarning;
+    @CustomKey("Addons_Confirm") private String addonsConfirm;
+    @CustomKey("Addons_ReloadHint") private String addonsReloadHint;
+    @CustomKey("Debug_ItemLogged") private String debugItemLogged;
+    @CustomKey("Error_SealingVersion") private String errorSealingVersion;
+    @CustomKey("Error_BrewFromItem") private String errorBrewFromItem;
+
     @Comment("Player")
     @CustomKey("Player_BarrelCreated")
     private String playerBarrelCreated;
@@ -502,5 +538,20 @@ public class Lang extends AbstractOkaeriConfigFile {
     private String playerWakeNotExist;
     @CustomKey("Player_WakeTeleport")
     private String playerWakeTeleport;
+
+    @CustomKey("Error_ProtectionCheck")
+    private String error_ProtectionCheck;
+
+    @CustomKey("Error_ProtectionDisable")
+    private String error_ProtectionDisable;
+
+    @CustomKey("Error_BarrelOpen")
+    private String error_BarrelOpen;
+
+    @CustomKey("Error_VirtualChest")
+    private String error_VirtualChest;
+
+    @CustomKey("Error_BarrelBreak")
+    private String error_BarrelBreak;
 
 }

@@ -416,8 +416,8 @@ public class Brew implements Cloneable {
                 // bad quality can decrease alc by up to 40%
                 alc *= 1 - ((float) (10 - quality) * 0.04f);
                 // distillable Potions should have half alc after one and full alc after all needed distills
-                alc /= 2;
-                alc *= 1.0F + ((float) distillRuns / currentRecipe.getDistillruns());
+                // Keep the half fractional until the final cast: 15 / 2 * 2 must remain 15.
+                alc = (int) (alc / 2.0F * (1.0F + ((float) distillRuns / currentRecipe.getDistillruns())));
             } else {
                 // quality decides 10% - 100%
                 alc *= ((float) quality / 10.0f);

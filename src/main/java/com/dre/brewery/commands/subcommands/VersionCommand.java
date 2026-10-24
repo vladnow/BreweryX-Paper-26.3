@@ -47,10 +47,12 @@ public class VersionCommand implements SubCommand {
 
         ReleaseChecker rc = ReleaseChecker.getInstance();
 
-        Logging.msg(sender, "&2BreweryX version&7: &av" + rc.localVersion() + " &7(Latest: v" + rc.getResolvedLatestVersion() + ")");
-        Logging.msg(sender, "&2Original authors&7: &aGrafe, TTTheKing, Sn0wStorm");
-        Logging.msg(sender, "&dBreweryX authors&7: &aJsinco, Mitality, Nadwey, Szarkans, Vutka1");
-        Logging.msg(sender, "&2Loaded addons&7: &a" + addonString);
+        String latest = rc.getResolvedLatestVersion();
+        latest = "UNRESOLVED".equals(latest) ? lang.getEntry("Version_NotChecked") : "v" + latest;
+        lang.sendEntry(sender, "Version_Plugin", rc.localVersion(), latest);
+        lang.sendEntry(sender, "Version_OriginalAuthors", "Grafe, TTTheKing, Sn0wStorm");
+        lang.sendEntry(sender, "Version_BreweryAuthors", "Jsinco, Mitality, Nadwey, Szarkans, Vutka1");
+        lang.sendEntry(sender, "Version_Addons", addonString);
     }
 
     @Override

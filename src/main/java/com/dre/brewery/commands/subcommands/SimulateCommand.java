@@ -155,7 +155,7 @@ public class SimulateCommand implements SubCommand {
             Brew fromItem = Brew.get(item);
             if (fromItem == null) {
                 // this message should never appear since simulation was successful
-                sender.sendMessage("&cCould not get brew from item");
+                lang.sendEntry(sender, "Error_BrewFromItem");
                 return;
             }
             sender.sendMessage(fromItem.toString());
@@ -518,7 +518,7 @@ public class SimulateCommand implements SubCommand {
                 .map(BCauldronRecipe::getName),
             BRecipe.getAllRecipes().stream()
                 .mapMulti((recipe, consumer) -> {
-                    consumer.accept(recipe.getRecipeName());
+                    consumer.accept(recipe.getName(5));
                     consumer.accept(recipe.getId());
                 })
         ).sorted()

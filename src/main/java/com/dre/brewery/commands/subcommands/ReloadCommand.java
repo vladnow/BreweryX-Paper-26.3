@@ -71,6 +71,8 @@ public class ReloadCommand implements SubCommand {
             // Reload Seed
             ConfigManager.loadSeed();
 
+            com.dre.brewery.localization.ItemLanguage.reload();
+
             // Reload Cauldron Particle Recipes
             BCauldron.reload();
 
@@ -78,6 +80,7 @@ public class ReloadCommand implements SubCommand {
             CommandUtil.reloadTabCompleter();
 
             // Sealing table recipe
+            BSealer.unregisterRecipe();
             BSealer.registerRecipe();
 
             // Let addons know this command was executed

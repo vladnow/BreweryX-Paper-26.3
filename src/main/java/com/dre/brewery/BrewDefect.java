@@ -178,7 +178,7 @@ public interface BrewDefect {
 
         @Override
         public List<String> getMessages(Lang lang) {
-            return lang.getEntries("Defect_WrongWood", actual.getFormattedName().toLowerCase(Locale.ROOT));
+            return lang.getEntries("Defect_WrongWood", com.dre.brewery.localization.ContentTranslations.woodName(actual.getFormattedName()));
         }
 
         @Override
